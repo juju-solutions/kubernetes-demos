@@ -19,6 +19,7 @@ fi
 echo "Change to the Kubernetes model ${KUBERNETES_MODEL}"
 juju switch ${KUBERNETES_MODEL}
 echo "Copying the Kubernetes credentials."
+mkdir -p .kube
 juju scp kubernetes-master/0:config .kube/config
 juju scp kubernetes-master/0:kubectl ./kubectl
 
@@ -33,4 +34,6 @@ juju run --unit jenkins/0 "tar -xvzf /home/ubuntu/kubernetes_credentials.tgz -C 
 juju run --unit jenkins/0 "chown -vR jenkins:jenkins ${JENKINS_HOME}/.kube"
 juju run --unit jenkins/0 "chown -R jenkins:jenkins ${JENKINS_HOME}/kubectl"
 
+#rm -rvf .kube
+#rm -v kubectl
 echo "${0} complete on `date`"
