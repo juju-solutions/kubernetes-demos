@@ -1,0 +1,42 @@
+series: xenial 
+description: |
+  A bundle to Demonstrate build projects and deploy to Kubernetes.
+applications:
+  jenkins:
+    charm: cs:xenial/jenkins
+    options:
+       plugins: |
+         authentication-tokens
+         bitbucket
+         bouncycastle-api
+         credentials
+         display-url-api
+         docker-build-publish
+         docker-commons
+         git
+         git-client
+         icon-shim
+         junit
+         mailer
+         matrix-project
+         mercurial
+         scm-api
+         script-security
+         ssh-credentials
+         structs
+         token-macro
+         workflow-scm-step
+         workflow-step-api
+    num_units: 1
+    expose: true
+    annotations:
+      gui-x: '300'
+      gui-y: '0'
+  jenkins-workspace: 
+    charm: cs:~containers/jenkins-workspace
+    annotations:
+      gui-x: '600'
+      gui-y: '0'
+relations:
+  - - jenkins:juju-info
+    - jenkins-workspace:jenkins-host 
