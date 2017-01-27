@@ -2,7 +2,7 @@
 
 # This script deploys a manifest YAML file to Kubernetes.
 
-set -x 
+set -ex 
 
 MANIFEST=${1}
 
@@ -20,6 +20,8 @@ ${KUBECTL} get services --all-namespaces
 ${KUBECTL} get deployments --all-namespaces
 echo ""
 echo "Deploying ${MANIFEST} to Kubernetes."
+cat ${MANIFEST}
+echo ""
 ${KUBECTL} apply -f ${MANIFEST}
 echo ""
 sleep 5
