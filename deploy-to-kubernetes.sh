@@ -13,7 +13,7 @@ ${KUBECTL} get nodes
 ${KUBECTL} get pods,services,deployments,ingress --all-namespaces
 
 echo "${KUBECTL} apply -f ${MANIFEST}"
-
+sleep 5
 ${KUBECTL} get pods,services,deployments,ingress --all-namespaces
 
 echo "Deployment of ${MANIFEST} complete `date`"
