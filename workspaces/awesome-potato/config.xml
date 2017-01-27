@@ -43,13 +43,13 @@
         <credentialsId>docker-hub-lazy</credentialsId>
       </registry>
       <repoName>lazypower/mattermost_app</repoName>
-      <noCache>true</noCache>
+      <noCache>false</noCache>
       <forcePull>true</forcePull>
       <buildContext>app</buildContext>
       <dockerfilePath>app/Dockerfile</dockerfilePath>
       <skipBuild>false</skipBuild>
       <skipDecorate>false</skipDecorate>
-      <repoTag></repoTag>
+      <repoTag>${BUILD_NUMBER}</repoTag>
       <skipPush>false</skipPush>
       <createFingerprint>true</createFingerprint>
       <skipTagLatest>false</skipTagLatest>
@@ -64,13 +64,13 @@
         <credentialsId>docker-hub-lazy</credentialsId>
       </registry>
       <repoName>lazypower/mattermost_db</repoName>
-      <noCache>true</noCache>
+      <noCache>false</noCache>
       <forcePull>true</forcePull>
       <buildContext>db</buildContext>
       <dockerfilePath>db/Dockerfile</dockerfilePath>
       <skipBuild>false</skipBuild>
       <skipDecorate>false</skipDecorate>
-      <repoTag></repoTag>
+      <repoTag>${BUILD_NUMBER}</repoTag>
       <skipPush>false</skipPush>
       <createFingerprint>true</createFingerprint>
       <skipTagLatest>false</skipTagLatest>
@@ -85,13 +85,13 @@
         <credentialsId>docker-hub-lazy</credentialsId>
       </registry>
       <repoName>lazypower/mattermost_web</repoName>
-      <noCache>true</noCache>
+      <noCache>false</noCache>
       <forcePull>true</forcePull>
       <buildContext>web</buildContext>
       <dockerfilePath>web/Dockerfile</dockerfilePath>
       <skipBuild>false</skipBuild>
       <skipDecorate>false</skipDecorate>
-      <repoTag></repoTag>
+      <repoTag>${BUILD_NUMBER}</repoTag>
       <skipPush>false</skipPush>
       <createFingerprint>true</createFingerprint>
       <skipTagLatest>false</skipTagLatest>
@@ -99,6 +99,30 @@
       <forceTag>false</forceTag>
     </com.cloudbees.dockerpublish.DockerBuilder>
   </builders>
-  <publishers/>
+  <publishers>
+    <hudson.tasks.ArtifactArchiver>
+      <artifacts>deploy/*</artifacts>
+      <allowEmptyArchive>false</allowEmptyArchive>
+      <onlyIfSuccessful>false</onlyIfSuccessful>
+      <fingerprint>false</fingerprint>
+      <defaultExcludes>true</defaultExcludes>
+      <caseSensitive>true</caseSensitive>
+    </hudson.tasks.ArtifactArchiver>
+    <hudson.plugins.parameterizedtrigger.BuildTrigger plugin="parameterized-trigger@2.32">
+      <configs>
+        <hudson.plugins.parameterizedtrigger.BuildTriggerConfig>
+          <configs>
+            <hudson.plugins.parameterizedtrigger.PredefinedBuildParameters>
+              <properties>IMAGE_TAG=${BUILD_ID}
+MANIFEST=deploy/staging.yaml</properties>
+            </hudson.plugins.parameterizedtrigger.PredefinedBuildParameters>
+          </configs>
+          <projects>deploy-to-kubernetes</projects>
+          <condition>SUCCESS</condition>
+          <triggerWithNoParameters>false</triggerWithNoParameters>
+        </hudson.plugins.parameterizedtrigger.BuildTriggerConfig>
+      </configs>
+    </hudson.plugins.parameterizedtrigger.BuildTrigger>
+  </publishers>
   <buildWrappers/>
 </project>
