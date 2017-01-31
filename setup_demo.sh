@@ -68,7 +68,7 @@ juju switch jenkins-${JENK_RANDOM}
 juju deploy bundle.yaml
 
 echo "What jenkins admin password?"
-read JENK_PASSWORD
+read -s JENK_PASSWORD
 
 juju config jenkins password=$JENK_PASSWORD
 
