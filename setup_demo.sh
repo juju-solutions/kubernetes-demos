@@ -38,8 +38,28 @@ function check_time() {
 
 KUBE_RANDOM=$(petname)
 JENK_RANDOM=$(petname)
-juju add-model jenkins-${JENK_RANDOM} google/us-central1 --credential=work
-juju add-model kubernetes-${KUBE_RANDOM} google/us-central1 --credential=work
+
+# READ cloud/region, and optional credential
+echo "Enter your cloud of choice (eg: google/us-central1)"
+read USER_CLOUD
+
+# Cloud is required
+if [ -z "${USER_CLOUD}" ]; then
+    echo "Missing cloud details."
+    exit 1
+fi
+
+
+# Credential is optional
+echo "[optional] Enter your credential (eg: work):"
+read USER_CREDENTIAL
+
+if [ ! -z "${USER_CREDENTIAL}" ]; then
+   CLOUD_CREDENTIAL="--credential=${USER_CREDENTIAL}"
+fi
+
+juju add-model jenkins-${JENK_RANDOM} ${USER_CLOUD} ${CLOUD_CREDENTIAL}
+juju add-model kubernetes-${KUBE_RANDOM} ${USER_CLOUD} ${CLOUD_CREDENTIAL}
 
 juju switch kubernetes-${KUBE_RANDOM}
 juju deploy canonical-kubernetes
