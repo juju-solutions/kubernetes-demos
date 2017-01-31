@@ -73,10 +73,10 @@ read JENK_PASSWORD
 juju config jenkins password=$JENK_PASSWORD
 
 if [ ! -f './workspaces/workspace.tgz' ]; then
- "Creating workspace archive"
- cd workspaces
- tar cvfz workspace.tgz *
- cd ..
+   echo "Creating workspace archive"
+   cd workspaces
+   tar cvfz workspace.tgz *
+   cd ..
 fi
 echo "attaching workspace resource"
 set +e
@@ -87,6 +87,7 @@ do
   echo "Attach not successful, retrying in 3 seconds."
   sleep 3
 done
+set -e
 
 # When deployment is complete, run copy_kubernetes_credentials.sh
 run_and_wait "juju status -m kubernetes-${KUBE_RANDOM}" "Kubernetes master running" 15
