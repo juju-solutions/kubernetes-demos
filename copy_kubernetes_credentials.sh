@@ -2,7 +2,7 @@
 
 # This script requires 1 parameter, the Juju model running kubernetes.
 
-set -x 
+# set -x 
 
 if [ -z "${1}" ]; then
   echo "Enter the Juju model running Kubernetes: "
