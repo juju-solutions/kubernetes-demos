@@ -43,7 +43,7 @@
   <concurrentBuild>false</concurrentBuild>
   <builders>
     <hudson.plugins.copyartifact.CopyArtifact plugin="copyartifact@1.38.1">
-      <project>awesome-potato</project>
+      <project>mm-container-build</project>
       <filter>deploy/*</filter>
       <target></target>
       <excludes></excludes>
