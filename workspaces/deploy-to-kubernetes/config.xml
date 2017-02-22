@@ -7,9 +7,19 @@
     <hudson.model.ParametersDefinitionProperty>
       <parameterDefinitions>
         <hudson.model.StringParameterDefinition>
+          <name>IMAGE_OWNER</name>
+          <description>The registry account keeping the images.</description>
+          <defaultValue>jujudemo</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
+          <name>NAMESPACE</name>
+          <description>The namespace to deploy to.</description>
+          <defaultValue>development</defaultValue>
+        </hudson.model.StringParameterDefinition>
+        <hudson.model.StringParameterDefinition>
           <name>MANIFEST</name>
           <description>The Kubernetes manifest file to deploy.</description>
-          <defaultValue>deploy/manifest.yaml</defaultValue>
+          <defaultValue>deploy/template.yaml</defaultValue>
         </hudson.model.StringParameterDefinition>
         <hudson.model.StringParameterDefinition>
           <name>IMAGE_TAG</name>
@@ -51,8 +61,8 @@
       <doNotFingerprintArtifacts>false</doNotFingerprintArtifacts>
     </hudson.plugins.copyartifact.CopyArtifact>
     <hudson.tasks.Shell>
-      <command>./replace-image-tag.sh ${MANIFEST} ${IMAGE_TAG}
-./deploy-to-kubernetes.sh ${MANIFEST}</command>
+       <command>NAMESPACE=${NAMESPACE} IMAGE_OWNER=${IMAGE_OWNER} IMAGE_TAG=${IMAGE_TAG} DOMAIN=chat.namespace.workeraddress.xip.io ./env-template ${MANIFEST} &gt; manifest.yaml
+./deploy-to-kubernetes.sh manifest.yaml</command>
     </hudson.tasks.Shell>
   </builders>
   <publishers/>

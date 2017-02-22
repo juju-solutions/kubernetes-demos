@@ -8,7 +8,7 @@
     <configVersion>2</configVersion>
     <userRemoteConfigs>
       <hudson.plugins.git.UserRemoteConfig>
-        <url>https://chuckbutler@bitbucket.org/jujudemo/mattermost-deploy.git</url>
+        <url>https://bitbucket.org/jujudemo/mattermost-deploy.git</url>
       </hudson.plugins.git.UserRemoteConfig>
     </userRemoteConfigs>
     <branches>
@@ -62,7 +62,7 @@ mv mattermost/* app/app_code/</command>
       <dockerfilePath>app/Dockerfile</dockerfilePath>
       <skipBuild>false</skipBuild>
       <skipDecorate>false</skipDecorate>
-      <repoTag>${BUILD_NUMBER}</repoTag>
+      <repoTag>${GIT_COMMIT}</repoTag>
       <skipPush>false</skipPush>
       <createFingerprint>true</createFingerprint>
       <skipTagLatest>false</skipTagLatest>
@@ -83,7 +83,7 @@ mv mattermost/* app/app_code/</command>
       <dockerfilePath>db/Dockerfile</dockerfilePath>
       <skipBuild>false</skipBuild>
       <skipDecorate>false</skipDecorate>
-      <repoTag>${BUILD_NUMBER}</repoTag>
+      <repoTag>${GIT_COMMIT}</repoTag>
       <skipPush>false</skipPush>
       <createFingerprint>true</createFingerprint>
       <skipTagLatest>false</skipTagLatest>
@@ -104,7 +104,7 @@ mv mattermost/* app/app_code/</command>
       <dockerfilePath>web/Dockerfile</dockerfilePath>
       <skipBuild>false</skipBuild>
       <skipDecorate>false</skipDecorate>
-      <repoTag>${BUILD_NUMBER}</repoTag>
+      <repoTag>${GIT_COMMIT}</repoTag>
       <skipPush>false</skipPush>
       <createFingerprint>true</createFingerprint>
       <skipTagLatest>false</skipTagLatest>
@@ -126,8 +126,8 @@ mv mattermost/* app/app_code/</command>
         <hudson.plugins.parameterizedtrigger.BuildTriggerConfig>
           <configs>
             <hudson.plugins.parameterizedtrigger.PredefinedBuildParameters>
-              <properties>IMAGE_TAG=${BUILD_ID}
-MANIFEST=deploy/development.yaml</properties>
+              <properties>IMAGE_TAG=${GIT_COMMIT}
+MANIFEST=deploy/template.yaml</properties>
             </hudson.plugins.parameterizedtrigger.PredefinedBuildParameters>
           </configs>
           <projects>deploy-to-kubernetes</projects>
