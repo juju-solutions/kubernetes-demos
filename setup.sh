@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 set -e
+
 sudo apt-get install -y petname
 
 # Shamelessly ripped from juju-solutions/kubernetes-jenkins repository
@@ -21,7 +22,6 @@ function run_and_wait() {
   done
 }
 
-
 # The check_time function requires two parameters start_time and max_seconds.
 function check_time() {
   local start_time=$1
@@ -40,7 +40,7 @@ KUBE_RANDOM=$(petname)
 JENK_RANDOM=$(petname)
 
 # READ cloud/region, and optional credential
-echo "Enter your cloud of choice (eg: google/us-central1)"
+echo "Enter your cloud of choice (eg: google/us-central1):"
 read USER_CLOUD
 
 # Cloud is required
@@ -48,7 +48,6 @@ if [ -z "${USER_CLOUD}" ]; then
     echo "Missing cloud details."
     exit 1
 fi
-
 
 # Credential is optional
 echo "[optional] Enter your credential (eg: work):"
@@ -65,12 +64,13 @@ juju switch kubernetes-${KUBE_RANDOM}
 juju deploy canonical-kubernetes
 
 juju switch jenkins-${JENK_RANDOM}
-juju deploy bundle.yaml
+juju deploy jenkins.yaml
 
-echo "Set the Jenkins admin password"
+echo "Set the Jenkins admin password:"
 read -s JENK_PASSWORD
 
-juju config jenkins password=${JENK_PASSWORD}
+# If no admin password was specified within the timeout period, it's "admin"
+juju config jenkins password=${JENK_PASSWORD:=admin}
 
 echo "Waiting for kubernetes deployment convergence"
 # When deployment is complete, run copy_kubernetes_credentials.sh

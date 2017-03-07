@@ -8,7 +8,7 @@
     <configVersion>2</configVersion>
     <userRemoteConfigs>
       <hudson.plugins.git.UserRemoteConfig>
-        <url>https://chuckbutler@bitbucket.org/chuckbutler/mattermost-fork.git</url>
+        <url>https://bitbucket.org/jujudemo/mattermost.git</url>
       </hudson.plugins.git.UserRemoteConfig>
     </userRemoteConfigs>
     <branches>
@@ -33,7 +33,7 @@
   <builders>
     <hudson.tasks.Shell>
       <command># this job builds from the dockerfile located in the mattermost repository
-# https://bitbucket.org/chuckbutler/mattermost-fork
+# https://bitbucket.org/jujudemo/mattermost
 docker build -t mattermost-builder .
 # this leg of the job builds the mattermost release archives
 docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v $PWD:/root/go/src/github.com/mattermost/platform mattermost-builder</command>
